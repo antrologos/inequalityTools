@@ -1,0 +1,13 @@
+Package: inequalityTools
+Type: Package
+Title: Tools for analizing income inequality
+Version: 0.1.0
+Authors@R: person("Rogerio", "Barbosa", email = "antrologos@gmail.com",
+  role = c("aut", "cre"))
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr, tibble, purrr, Hmisc, mvQuad, pracma, spatstat
+RoxygenNote: 7.1.1
