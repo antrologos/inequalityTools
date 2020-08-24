@@ -45,33 +45,32 @@ calc_growthConcCoef = function(x0,
                                            w1 = w1,
                                            gridIntegration = gridIntegration)
                 
-                gcc_aboveCurve_above1 = function(p) {
-                        ifelse(gcc(p) > 1, -(gcc(p) - 1), 0)
+                # 1
+                f1_AreaBelowCurveAboveP_CurveAboveP = function(p) { 
+                        ifelse((gcc(p) > p), -(gcc(p) - p), 0)
                 }
                 
-                gcc_aboveCurve_below0 = function(p) {
+                # 2
+                f2_AreaAboveCurve_CurveAbove0BelowP = function(p) {
+                        ifelse(gcc(p) <= p, ifelse(gcc(p) >= 0, p - gcc(p), p), 0)
+                }
+                
+                # 3
+                f3_AreaAboveCurve_CurveBelow0 = function(p) {
                         ifelse(gcc(p) < 0, -gcc(p), 0)
                 }
                 
-                gcc_aboveCurve_above0belowP = function(p) {
-                        ifelse((gcc(p) <= p) & (gcc(p) >= 0), p - gcc(p), 0)
+                # 4
+                f4_AreaBetween0andCurveOrP_nonNegativeCurve = function(p) {
+                        ifelse(gcc(p) >= 0, ifelse(gcc(p) > p, p, gcc(p)), 0)
                 }
                 
-                gcc_belowCurve_above0belowP = function(p) {
-                        ifelse((gcc(p) <= p) & (gcc(p) >= 0), gcc(p), 0)
-                }
+                area_1 = pracma::integral(f1_AreaBelowCurveAboveP_CurveAboveP,         0, 1, no_intervals = 5000)
+                area_2 = pracma::integral(f2_AreaAboveCurve_CurveAbove0BelowP,         0, 1, no_intervals = 5000)
+                area_3 = pracma::integral(f3_AreaAboveCurve_CurveBelow0,               0, 1, no_intervals = 5000)
+                area_4 = pracma::integral(f4_AreaBetween0andCurveOrP_nonNegativeCurve, 0, 1, no_intervals = 5000)
                 
-                gcc_belowCurve_abovePbelow1 = function(p) {
-                        ifelse((gcc(p) >= p) & (gcc(p) <= 1), -(gcc(p) - p), 0)
-                }
-                
-                area_a1 = pracma::integral(gcc_aboveCurve_above1,       0, 1, no_intervals = 5000)
-                area_a2 = pracma::integral(gcc_aboveCurve_below0,       0, 1, no_intervals = 5000)
-                area_a3 = pracma::integral(gcc_aboveCurve_above0belowP, 0, 1, no_intervals = 5000)
-                area_b1 = pracma::integral(gcc_belowCurve_above0belowP, 0, 1, no_intervals = 5000)
-                area_b2 = pracma::integral(gcc_belowCurve_abovePbelow1, 0, 1, no_intervals = 5000)
-                
-                corrected_cc = (area_a1 + area_a2 + area_a3)/(area_a1 + area_a2 + area_a3 + area_b1 + area_b1 + area_b2)
+                corrected_cc = (area_1 + area_2 + area_3)/(area_1 + area_2 + area_3 + area_4)
                 
                 if(sign(cc) != sign(corrected_cc)){
                         corrected_cc = corrected_cc*sign(cc)
