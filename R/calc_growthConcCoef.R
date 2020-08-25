@@ -6,6 +6,7 @@
 #' @param w1 (optional) A vector of sample weights at time 1
 #' @param correct_for_negativeAppropriation A logical value. Correct for negative values in the Growth Appropriation Curve. Default to TRUE.
 #' @param correct_for_negativeGrowth A logical value. Correct for negative growth. Default to TRUE.
+#' @param normalize A logical value. Applies a monotonic nonlinear transformation which makes the Concentration Coefficient to vary between -1 and 1. Default to FALSE.
 #' @param gridIntegration (optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)
 #' 
 #' @return Returns the Growth Concentration Coenfficient (numeric value)
@@ -18,6 +19,7 @@ calc_growthConcCoef = function(x0,
                                
                                correct_for_negativeAppropriation = T,
                                correct_for_negativeGrowth = T,
+                               normalize = F,
                                gridIntegration = NULL
                                ){
         
@@ -80,8 +82,11 @@ calc_growthConcCoef = function(x0,
         }
         
         if(correct_for_negativeGrowth == T){
-                return(sign(mu1 - mu0)*cc)
-        }else{
-                return(cc)
+                cc = sign(mu1 - mu0)*cc
         }
+        
+        if(normalize == T){
+                cc = normalize_concCoef(cc)
+        }
+        
 }

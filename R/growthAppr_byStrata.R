@@ -5,6 +5,7 @@
 #' @param n_strata A numeric value indicating how many bins will be created 
 #' @param w0 (optional) A vector of sample weights at time 0
 #' @param w1 (optional) A vector of sample weights at time 1
+#' @param correct_for_negativeGrowth A logical value. Correct for negative growth. Default to TRUE.
 #' 
 #' @return Returns a tibble with the following columns:
 #'     - Strata: Number of the ordered income strata
@@ -30,6 +31,12 @@ growthAppr_byStrata <- function(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL){
         mu0 = wtd.mean(x0, w0)
         mu1 = wtd.mean(x1, w1)
         
+        if(correct_for_negativeGrowth == T){
+                diff_mu = abs(mu1 - mu0)
+        }else{
+                diff_mu = mu1 - mu0
+        }
+        
         d0 = tibble(x = x0,
                     w = w0) %>%
                 filter(complete.cases(.)) %>%
@@ -47,7 +54,7 @@ growthAppr_byStrata <- function(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL){
         d = left_join(d0, d1) %>%
                 arrange(strata) %>%
                 mutate(p   = 1/n_strata, 
-                       gac = (p*(mean_1 - mean_0))/(mu1 - mu0),
+                       gac = (p*(mean_1 - mean_0))/(diff_mu),
                        gac = gac/sum(gac)) %>%
                 rename(Strata = strata,
                        `Pop. Share` = p,
@@ -60,5 +67,5 @@ growthAppr_byStrata <- function(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL){
                        `Mean 1`,
                        `Growth Appropriation`)
         
-        
+        d
 }

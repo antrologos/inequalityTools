@@ -78,3 +78,10 @@ replaceNAvalues = function(x, replacement = 0){
         x[is.na(x)] <- replacement
         x
 }
+
+# Makes the Concentration Coefficient to vary between -1 and 1
+normalize_concCoef = function(x){
+        
+        2* ( (exp(x)/(exp(x)+1)) -.5)
+        
+}
