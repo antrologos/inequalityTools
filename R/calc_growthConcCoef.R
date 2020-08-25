@@ -89,4 +89,5 @@ calc_growthConcCoef = function(x0,
                 cc = normalize_concCoef(cc)
         }
         
+        cc
 }
