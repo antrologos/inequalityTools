@@ -9,8 +9,9 @@ calc_growthConcCoef(
   x1,
   w0 = NULL,
   w1 = NULL,
-  correct_for_negativeAppropriation = T,
+  correct_for_negativeAppropriation = F,
   correct_for_negativeGrowth = T,
+  normalize = F,
   gridIntegration = NULL
 )
 }
@@ -23,14 +24,16 @@ calc_growthConcCoef(
 
 \item{w1}{(optional) A vector of sample weights at time 1}
 
-\item{correct_for_negativeAppropriation}{A logical value. Correct for negative values in the Growth Appropriation Curve. Default to TRUE.}
+\item{correct_for_negativeAppropriation}{A logical value. Correct for negative values in the Growth Appropriation Curve. Default to FALSE.}
 
 \item{correct_for_negativeGrowth}{A logical value. Correct for negative growth. Default to TRUE.}
+
+\item{normalize}{A logical value. Applies a monotonic nonlinear transformation which makes the Concentration Coefficient to vary between -1 and 1. Default to FALSE.}
 
 \item{gridIntegration}{(optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)}
 }
 \value{
-Returns the Growth Concentration Coenfficient (numeric value)
+Returns the Growth Concentration Coefficient (numeric value)
 }
 \description{
 Computes the Concentration Coefficient for the income growth between two periods

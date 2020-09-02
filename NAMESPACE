@@ -2,6 +2,7 @@
 
 export(calc_concCoef)
 export(calc_giniCoef)
+export(calc_giniCoef_fromQuantile)
 export(calc_growthConcCoef)
 export(decomp_dattRavallion)
 export(decomp_giniBySources)

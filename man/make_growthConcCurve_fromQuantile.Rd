@@ -4,12 +4,19 @@
 \alias{make_growthConcCurve_fromQuantile}
 \title{Makes a Growth Concentration Curve Function out of two quantile functions}
 \usage{
-make_growthConcCurve_fromQuantile(qf0, qf1, gridIntegration = NULL)
+make_growthConcCurve_fromQuantile(
+  qf0,
+  qf1,
+  correct_for_negativeGrowth = T,
+  gridIntegration = NULL
+)
 }
 \arguments{
 \item{qf0}{A quantile function for group/time 0}
 
 \item{qf1}{A quantile function for group/time 1}
+
+\item{correct_for_negativeGrowth}{A logical value. Correct for negative growth. Default to TRUE.}
 
 \item{gridIntegration}{(optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)}
 }

@@ -4,7 +4,14 @@
 \alias{growthAppr_byStrata}
 \title{Computes the Growth Appropriation between two periods for equal-sized income strata/bins}
 \usage{
-growthAppr_byStrata(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL)
+growthAppr_byStrata(
+  x0,
+  x1,
+  n_strata = 10,
+  w0 = NULL,
+  w1 = NULL,
+  correct_for_negativeGrowth = T
+)
 }
 \arguments{
 \item{x0}{A vector of incomes at time 0}
@@ -16,6 +23,8 @@ growthAppr_byStrata(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL)
 \item{w0}{(optional) A vector of sample weights at time 0}
 
 \item{w1}{(optional) A vector of sample weights at time 1}
+
+\item{correct_for_negativeGrowth}{A logical value. Correct for negative growth. Default to TRUE.}
 }
 \value{
 Returns a tibble with the following columns:
