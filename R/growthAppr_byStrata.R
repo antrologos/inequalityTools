@@ -18,7 +18,8 @@
 #' @import dplyr
 #' 
 #' @export
-growthAppr_byStrata <- function(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL){
+growthAppr_byStrata <- function(x0, x1, n_strata = 10, w0 = NULL, w1 = NULL,
+                                correct_for_negativeGrowth = T){
         
         if(is.null(w0)){
                 w0 = rep(1, length(x0))

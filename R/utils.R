@@ -80,7 +80,7 @@ replaceNAvalues = function(x, replacement = 0){
 }
 
 # Makes the Concentration Coefficient to vary between -1 and 1
-normalize_concCoef = function(x){
+normalize_neg1_pos1 = function(x){
         
         2* ( (exp(x)/(exp(x)+1)) -.5)
         
