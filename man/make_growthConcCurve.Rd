@@ -4,14 +4,7 @@
 \alias{make_growthConcCurve}
 \title{Makes a Growth Concentration Curve Function out of two income vectors}
 \usage{
-make_growthConcCurve(
-  x0,
-  x1,
-  w0 = NULL,
-  w1 = NULL,
-  correct_for_negativeGrowth = T,
-  gridIntegration = NULL
-)
+make_growthConcCurve(x0, x1, w0 = NULL, w1 = NULL, gridIntegration = NULL)
 }
 \arguments{
 \item{x0}{A vector of incomes for group/time 0}
@@ -21,8 +14,6 @@ make_growthConcCurve(
 \item{w0}{(optional) A vector of sample weights for group/time 0}
 
 \item{w1}{(optional) A vector of sample weights for group/time 1}
-
-\item{correct_for_negativeGrowth}{A logical value. Correct for negative growth. Default to TRUE.}
 
 \item{gridIntegration}{(optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)}
 }

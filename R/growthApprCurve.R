@@ -4,7 +4,6 @@
 #' @param x1 A vector of incomes for group/time 1 
 #' @param w0 (optional) A vector of sample weights for group/time 0
 #' @param w1 (optional) A vector of sample weights for group/time 1
-#' @param correct_for_negativeGrowth A logical value. Correct for negative growth. Default to TRUE.
 #' @param gridIntegration (optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)
 #' 
 #' @return Returns a function which takes a vector of probabilities as inputs (p) and gives points at the Growth Appropriation Curve as outputs
@@ -13,7 +12,6 @@
 #' 
 #' @export
 make_growthApprCurve = function(x0, x1, w0 = NULL, w1 = NULL, 
-                                correct_for_negativeGrowth = T,
                                 gridIntegration = NULL){
         
         if(is.null(w0)){
@@ -34,15 +32,8 @@ make_growthApprCurve = function(x0, x1, w0 = NULL, w1 = NULL,
         mu0 = mvQuad::quadrature(qf0, gridIntegration)
         mu1 = mvQuad::quadrature(qf1, gridIntegration)
         
-        
-        if(correct_for_negativeGrowth == T){
-                function(p){
-                        (qf1(p) - qf0(p))/abs(mu1 - mu0)
-                }
-        }else{
-                function(p){
-                        (qf1(p) - qf0(p))/(mu1 - mu0)
-                }
+        function(p){
+                (qf1(p) - qf0(p))/(mu1 - mu0)
         }
 }
 
@@ -51,7 +42,6 @@ make_growthApprCurve = function(x0, x1, w0 = NULL, w1 = NULL,
 #'
 #' @param qf0 A quantile function for group/time 0
 #' @param qf1 A quantile function for group/time 1 
-#' @param correct_for_negativeGrowth A logical value. Correct for negative growth. Default to TRUE.
 #' @param gridIntegration (optional) A grid of class 'NIGrid' for multivariate numerical integration (mvQuad package)
 #' 
 #' @return Returns a function which takes a vector of probabilities as inputs (p) and gives points at the Growth Appropriation Curve as outputs
@@ -60,7 +50,6 @@ make_growthApprCurve = function(x0, x1, w0 = NULL, w1 = NULL,
 #' 
 #' @export
 make_growthApprCurve_fromQuantile <- function(qf0, qf1, 
-                                              correct_for_negativeGrowth = T,
                                               gridIntegration = NULL){
         
         if(is.null(gridIntegration)){
@@ -70,14 +59,8 @@ make_growthApprCurve_fromQuantile <- function(qf0, qf1,
         mu0 = mvQuad::quadrature(qf0, gridIntegration)
         mu1 = mvQuad::quadrature(qf1, gridIntegration)
         
-        if(correct_for_negativeGrowth == T){
-                function(p){
-                        (qf1(p) - qf0(p))/abs(mu1 - mu0)
-                }
-        }else{
-                function(p){
-                        (qf1(p) - qf0(p))/(mu1 - mu0)
-                }
+        function(p){
+                (qf1(p) - qf0(p))/(mu1 - mu0)
         }
 }
 
