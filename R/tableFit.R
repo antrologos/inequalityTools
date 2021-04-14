@@ -235,7 +235,7 @@ tableFit_nonParametric = function(incomeTable,
         
         
         cat("Getting the Lorenz Function...\n")
-        lorenz <- makeLorenz_fromQuantile(quantile, grid_quantile)
+        lorenz <- inequalityTools::make_lorenz_fromQuantile(quantile, grid_quantile)
         
         cat("Estimating the mean...\n")
         mu     <- pracma::integral(quantile, lowerBound_integration, upperBound_integration)
