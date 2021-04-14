@@ -225,7 +225,7 @@ tableFit_nonParametric = function(incomeTable,
         
         cat("Getting the Quantile Function...\n")
         if(length(quantile_order) == 0){
-                quantile <- tableInequality:::inverse(results[[CDF_order]], 
+                quantile <- inequalityTools:::inverse(results[[CDF_order]], 
                                                       lower = 0, 
                                                       upper = endPoint,
                                                       extendInt = "yes") %>% Vectorize()       
