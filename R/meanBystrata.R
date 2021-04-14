@@ -32,3 +32,21 @@ meanBystrata <- function(x, lowerBound = 0, upperBound = 1, w = NULL){
         
         sum(subData$x*subData$w)/sum(subData$w)
 }
+
+ 
+#' Computes the mean income for a strata defined by a lower bound and an upper bound in the ordered cumulative income distribution from a Quantile Function
+#'
+#' @param qf A quantile function
+#' @param lowerBound A value between 0 and 1, indicating the lower bound of the strata
+#' @param upperBound A value between 0 and 1, indicating the upper bound of the strata
+#' 
+#' @return Returns the mean (a numeric value) within the strata
+#' 
+#' @import pracma
+#' 
+#' @export
+meanBystrata_fromQuantile <- function(qf, lowerBound = 0, upperBound = 1){
+        
+        pracma::integral(qf, lowerBound, upperBound)/(upperBound - lowerBound)
+        
+}
