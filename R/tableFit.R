@@ -19,33 +19,37 @@
 #' @import tibble
 #' @import dplyr
 #' @import binequality 
+#' @import gamlss
 #' @import mvQuad
 #' @import pracma
 #' 
 #' @export
-tableFit_gb2 <- function(incomeTable, 
-                    modelsToFit = c("GB2", "GG", 
-                                    "BETA2", "DAGUM", "SINGMAD", "LOGNO", 
-                                    "WEI", "GA", "LOGLOG", "PARETO2"),
-                    obs_mean = NULL,
-                    grid_quantile = NULL){
+tableFit_gb2 = function(incomeTable, 
+         modelsToFit = c("GB2", "GG", 
+                         "BETA2", "DAGUM", "SINGMAD", "LOGNO", 
+                         "WEI", "GA", "LOGLOG", "PARETO2"),
+         obs_mean = NULL,
+         grid_quantile = NULL){
         
         if(is.null(obs_mean)){
                 obs_mean <- as.numeric(NA)
         }
         
         if(is.null(grid_quantile)){
-                grid_quantile <- createNIGrid(dim=1, type="GLe", level=1000)        
+                grid_quantile <- mvQuad::createNIGrid(dim=1, type="GLe", level=1000)        
         }
         
+        test_binequality = require(binequality)
+        if(!test_binequality) stop("The package 'binequality' is not installed")
+        
         fit <- with(incomeTable %>% mutate(ID = "1"), 
-                    run_GB_family(ID = ID,
-                                  hb = N,
-                                  bin_min = lower,
-                                  bin_max = upper,
-                                  modelsToFit = modelsToFit,
-                                  obs_mean = obs_mean,
-                                  ID_name = 'ID'))
+                    binequality::run_GB_family(ID = ID,
+                                               hb = N,
+                                               bin_min = lower,
+                                               bin_max = upper,
+                                               modelsToFit = modelsToFit,
+                                               obs_mean = obs_mean,
+                                               ID_name = 'ID'))
         
         bestAIC_gb2 <- fit$best_model$aic[, c("distribution",
                                               "estMean",
@@ -142,7 +146,6 @@ tableFit_gb2 <- function(incomeTable,
         par_names  <- names(parameters)[!is.na(parameters)]
         parameters <- parameters[par_names]
         
-        
         args   = paste(paste(par_names, parameters, sep = " = "), collapse = ", ")
         d_name = paste0("d", distribution_name)
         p_name = paste0("p", distribution_name)
@@ -154,8 +157,7 @@ tableFit_gb2 <- function(incomeTable,
         
         quantile = function(x) eval(parse(text = paste0(q_name, "(x, ", args, ")")))
         
-        lorenz  = makeLorenz_fromQuantile(quantile, grid_quantile)
-        
+        lorenz  = inequalityTools::make_lorenz_fromQuantile(quantile, grid_quantile)
         
         list(descriptive = best_gb2,
              pdf = pdf,

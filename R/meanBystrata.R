@@ -13,6 +13,8 @@
 #' @export
 meanBystrata <- function(x, lowerBound = 0, upperBound = 1, w = NULL){
         
+        obs_order = 1:length(x)
+        
         if(is.null(w)){
                 w = rep(1, length(x))
         }
