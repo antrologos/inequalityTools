@@ -198,8 +198,8 @@ tableFit_gb2 = function(incomeTable,
 tableFit_nonParametric = function(incomeTable, 
                              method = c("rsub", "spline", "step"),
                              ..., grid_quantile = NULL, gini = F,
-                             lowerBound_integration = .004, 
-                             upperBound_integration = .997) {
+                             lowerBound_integration = 0, 
+                             upperBound_integration = 1) {
         
         method = method[1]
         

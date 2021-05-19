@@ -11,15 +11,13 @@
 #' @import dplyr
 #' 
 #' @export
-meanBystrata <- function(x, lowerBound = 0, upperBound = 1, w = NULL){
-        
-        obs_order = 1:length(x)
+meanByStrata <- function(x, lowerBound = 0, upperBound = 1, w = NULL){
         
         if(is.null(w)){
                 w = rep(1, length(x))
         }
         
-        data <- tibble(obs_order, x, w) %>%
+        data <- tibble(x, w) %>%
                 filter(complete.cases(.)) %>%
                 arrange(x) %>%
                 mutate(p_cum = cumsum(w)/sum(w))
@@ -47,8 +45,8 @@ meanBystrata <- function(x, lowerBound = 0, upperBound = 1, w = NULL){
 #' @import pracma
 #' 
 #' @export
-meanBystrata_fromQuantile <- function(qf, lowerBound = 0, upperBound = 1){
+meanByStrata_fromQuantile <- function(qf, lowerBound = 0, upperBound = 1, subdivisions = 2000){
         
-        pracma::integral(qf, lowerBound, upperBound)/(upperBound - lowerBound)
+        integrate(f = qf, lower = lowerBound, upper = upperBound, subdivisions = subdivisions)[[1]]/(upperBound - lowerBound)
         
 }
